@@ -18,6 +18,8 @@ services:
       - ${OPENCLAW_DOCKER_CONFIG_DIR}:/home/node/.docker-config:ro,z
     group_add:
       - "${DOCKER_GID:-999}"
+    security_opt:
+      - label=disable
 
   openclaw-cli:
     volumes:
