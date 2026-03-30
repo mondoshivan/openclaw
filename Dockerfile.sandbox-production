@@ -1,0 +1,22 @@
+FROM docker-registry.home-intra.net/openclaw/sandbox-common:latest
+
+USER root
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  python3-pip \
+  python3-venv \
+  ffmpeg \
+  git \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install --no-cache-dir --break-system-packages \
+  openai-whisper
+
+RUN mkdir -p /opt/bin && printf '%s\n' \
+  '#!/bin/sh' \
+  'exec python3 -m whisper "$@"' \
+  > /opt/bin/whisper-cli && chmod +x /opt/bin/whisper-cli
+
+ENV PATH="/opt/bin:${PATH}"
+
+USER sandbox
