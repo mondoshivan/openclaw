@@ -41,7 +41,8 @@
       "label": "Build & push sandbox images (cross-arch)",
       "dependsOn": [
         "Build & push sandbox base (cross-arch)",
-        "Build & push sandbox common (cross-arch)"
+        "Build & push sandbox common (cross-arch)",
+        "Build & push sandbox production (cross-arch)"
       ],
       "dependsOrder": "sequence",
       "group": {
