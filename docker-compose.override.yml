@@ -1,0 +1,21 @@
+services:
+  openclaw-gateway:
+    ports: !reset []
+    networks:
+      - home-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
+      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
+  
+  openclaw-cli:
+    networks:
+      - home-server
+    volumes:
+      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
+      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
+
+networks:
+  home-server:
+    external: true
+    name: home-server_home-server
