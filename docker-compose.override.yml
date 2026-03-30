@@ -1,5 +1,11 @@
 services:
   openclaw-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway-sandbox
+      args:
+        BASE_IMAGE: ${OPENCLAW_IMAGE:-ghcr.io/openclaw/openclaw:latest}
+    image: docker-registry.home-intra.net/openclaw/gateway:latest
     ports: !reset []
     networks:
       - home-server
@@ -7,6 +13,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
+    group_add:
+      - "${DOCKER_GID:-999}"
   
   openclaw-cli:
     networks:
