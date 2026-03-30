@@ -16,9 +16,12 @@ services:
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
       - ${OPENCLAW_DOCKER_CONFIG_DIR}:/home/node/.docker-config:ro,z
-      # Mount sandbox workspace at the same host path so Docker daemon can resolve
-      # the volume source when spawning sibling sandbox containers.
-      - ${OPENCLAW_SANDBOX_WORKSPACE_DIR}:${OPENCLAW_SANDBOX_WORKSPACE_DIR}:z
+      # Also mount the workspace and config dir at their real host paths so that when
+      # the gateway spawns sibling sandbox containers via the host Docker socket, the
+      # volume source paths it passes (which are container-internal) resolve correctly
+      # on the host Docker daemon.
+      - ${OPENCLAW_CONFIG_DIR}:${OPENCLAW_CONFIG_DIR}:z
+      - ${OPENCLAW_WORKSPACE_DIR}:${OPENCLAW_WORKSPACE_DIR}:z
     group_add:
       - "${DOCKER_GID:-999}"
     security_opt:
