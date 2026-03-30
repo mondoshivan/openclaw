@@ -7,12 +7,15 @@ services:
         BASE_IMAGE: ${OPENCLAW_IMAGE:-ghcr.io/openclaw/openclaw:latest}
     image: docker-registry.home-intra.net/openclaw/gateway:latest
     ports: !reset []
+    environment:
+      DOCKER_CONFIG: /home/node/.docker-config
     networks:
       - home-server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
+      - ${OPENCLAW_DOCKER_CONFIG_DIR}:/home/node/.docker-config:ro:z
     group_add:
       - "${DOCKER_GID:-999}"
 
