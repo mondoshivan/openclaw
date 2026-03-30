@@ -15,7 +15,7 @@ RUN python3 -m pip install --no-cache-dir --break-system-packages \
 RUN mkdir -p /opt/bin && printf '%s\n' \
   '#!/bin/sh' \
   'exec python3 -m whisper "$@"' \
-  > /opt/bin/whisper-cli && chmod +x /opt/bin/whisper-cli
+  > /opt/bin/whisper && chmod +x /opt/bin/whisper
 
 ENV PATH="/opt/bin:${PATH}"
 
