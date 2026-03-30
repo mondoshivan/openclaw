@@ -11,10 +11,14 @@ INSTALL_BREW="${INSTALL_BREW:-1}"
 BREW_INSTALL_DIR="${BREW_INSTALL_DIR:-/home/linuxbrew/.linuxbrew}"
 FINAL_USER="${FINAL_USER:-sandbox}"
 OPENCLAW_DOCKER_BUILD_USE_BUILDX="${OPENCLAW_DOCKER_BUILD_USE_BUILDX:-0}"
+OPENCLAW_DOCKER_BUILD_PLATFORM="${OPENCLAW_DOCKER_BUILD_PLATFORM:-}"
+OPENCLAW_DOCKER_BUILD_PUSH="${OPENCLAW_DOCKER_BUILD_PUSH:-0}"
 OPENCLAW_DOCKER_BUILD_CACHE_FROM="${OPENCLAW_DOCKER_BUILD_CACHE_FROM:-}"
 OPENCLAW_DOCKER_BUILD_CACHE_TO="${OPENCLAW_DOCKER_BUILD_CACHE_TO:-}"
 
-if ! docker image inspect "${BASE_IMAGE}" >/dev/null 2>&1; then
+# When pushing cross-arch, the base image may only exist in the remote registry,
+# so skip the local inspect check.
+if [ "${OPENCLAW_DOCKER_BUILD_PUSH}" != "1" ] && ! docker image inspect "${BASE_IMAGE}" >/dev/null 2>&1; then
   echo "Base image missing: ${BASE_IMAGE}"
   echo "Building base image via scripts/sandbox-setup.sh..."
   scripts/sandbox-setup.sh
@@ -24,7 +28,15 @@ echo "Building ${TARGET_IMAGE} with: ${PACKAGES}"
 
 build_cmd=(docker build)
 if [ "${OPENCLAW_DOCKER_BUILD_USE_BUILDX}" = "1" ]; then
-  build_cmd=(docker buildx build --load)
+  build_cmd=(docker buildx build)
+  if [ "${OPENCLAW_DOCKER_BUILD_PUSH}" = "1" ]; then
+    build_cmd+=(--push)
+  else
+    build_cmd+=(--load)
+  fi
+  if [ -n "${OPENCLAW_DOCKER_BUILD_PLATFORM}" ]; then
+    build_cmd+=(--platform "${OPENCLAW_DOCKER_BUILD_PLATFORM}")
+  fi
   if [ -n "${OPENCLAW_DOCKER_BUILD_CACHE_FROM}" ]; then
     build_cmd+=(--cache-from "${OPENCLAW_DOCKER_BUILD_CACHE_FROM}")
   fi

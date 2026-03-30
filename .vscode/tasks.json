@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build & push sandbox base (cross-arch)",
+      "type": "shell",
+      "command": "./scripts/sandbox-setup.sh",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "OPENCLAW_DOCKER_BUILD_USE_BUILDX": "1",
+          "OPENCLAW_DOCKER_BUILD_PLATFORM": "linux/amd64,linux/arm64",
+          "OPENCLAW_DOCKER_BUILD_PUSH": "1",
+          "TARGET_IMAGE": "docker-registry.home-intra.net/openclaw/sandbox-base:latest"
+        }
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build & push sandbox common (cross-arch)",
+      "type": "shell",
+      "command": "./scripts/sandbox-common-setup.sh",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "OPENCLAW_DOCKER_BUILD_USE_BUILDX": "1",
+          "OPENCLAW_DOCKER_BUILD_PLATFORM": "linux/amd64,linux/arm64",
+          "OPENCLAW_DOCKER_BUILD_PUSH": "1",
+          "BASE_IMAGE": "docker-registry.home-intra.net/openclaw/sandbox-base:latest",
+          "TARGET_IMAGE": "docker-registry.home-intra.net/openclaw/sandbox-common:latest"
+        }
+      },
+      "group": "build",
+      "dependsOn": [
+        "Build & push sandbox base (cross-arch)"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build & push sandbox images (cross-arch)",
+      "dependsOn": [
+        "Build & push sandbox base (cross-arch)",
+        "Build & push sandbox common (cross-arch)"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": []
+    }
+  ]
+}
