@@ -15,7 +15,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
-      - ${OPENCLAW_DOCKER_CONFIG_DIR}:/home/node/.docker-config:ro:z
+      - ${OPENCLAW_DOCKER_CONFIG_DIR}:/home/node/.docker-config:ro,z
     group_add:
       - "${DOCKER_GID:-999}"
 
