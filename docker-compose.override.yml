@@ -15,7 +15,7 @@ services:
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
     group_add:
       - "${DOCKER_GID:-999}"
-  
+
   openclaw-cli:
     networks:
       - home-server
