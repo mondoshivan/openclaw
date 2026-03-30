@@ -49,6 +49,16 @@
         "isDefault": false
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Build & push sandbox production (cross-arch)",
+      "type": "shell",
+      "command": "docker buildx build --push --platform linux/amd64,linux/arm64 -t docker-registry.home-intra.net/openclaw/sandbox-production:latest -f Dockerfile.sandbox-production .",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": []
     }
   ]
 }
