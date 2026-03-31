@@ -12,8 +12,6 @@ services:
     volumes:
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
-    group_add:
-      - "${DOCKER_GID:-999}"
     security_opt:
       - label=disable
 
