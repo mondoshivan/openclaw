@@ -2,26 +2,16 @@ services:
   openclaw-gateway:
     build:
       context: .
-      dockerfile: Dockerfile.gateway-sandbox
+      dockerfile: Dockerfile
       args:
-        BASE_IMAGE: ${OPENCLAW_IMAGE:-ghcr.io/openclaw/openclaw:latest}
+        OPENCLAW_DOCKER_APT_PACKAGES: ffmpeg
     image: docker-registry.home-intra.net/openclaw/gateway:latest
     ports: !reset []
-    environment:
-      DOCKER_CONFIG: /home/node/.docker-config
     networks:
       - home-server
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
-      - ${OPENCLAW_DOCKER_CONFIG_DIR}:/home/node/.docker-config:ro,z
-      # Also mount the workspace and config dir at their real host paths so that when
-      # the gateway spawns sibling sandbox containers via the host Docker socket, the
-      # volume source paths it passes (which are container-internal) resolve correctly
-      # on the host Docker daemon.
-      - ${OPENCLAW_CONFIG_DIR}:${OPENCLAW_CONFIG_DIR}:z
-      - ${OPENCLAW_WORKSPACE_DIR}:${OPENCLAW_WORKSPACE_DIR}:z
     group_add:
       - "${DOCKER_GID:-999}"
     security_opt:

@@ -62,29 +62,13 @@
       "problemMatcher": []
     },
     {
-      "label": "Build & push openclaw-base (cross-arch)",
+      "label": "Build & push openclaw gateway (cross-arch)",
       "type": "shell",
-      "command": "docker buildx build --push --platform linux/amd64,linux/arm64 -t docker-registry.home-intra.net/openclaw/openclaw-base:latest -f Dockerfile .",
+      "command": "docker buildx bake -f docker-compose.yml -f docker-compose.override.yml --push --set '*.platform=linux/amd64,linux/arm64' openclaw-gateway",
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "group": "build",
-      "problemMatcher": []
-    },
-    {
-      "label": "Build & push gateway (cross-arch)",
-      "type": "shell",
-      "command": "docker buildx build --push --platform linux/amd64,linux/arm64 --build-arg BASE_IMAGE=docker-registry.home-intra.net/openclaw/openclaw-base:latest -t docker-registry.home-intra.net/openclaw/gateway:latest -f Dockerfile.gateway-sandbox .",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "dependsOn": [
-        "Build & push openclaw-base (cross-arch)"
-      ],
       "problemMatcher": []
     }
   ]
