@@ -12,6 +12,7 @@ services:
     networks:
       - home-server
     volumes:
+      - openclaw-home:/home/node
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
     security_opt:
@@ -19,8 +20,13 @@ services:
 
   openclaw-cli:
     volumes:
+      - openclaw-home:/home/node
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
+
+volumes:
+  openclaw-home:
+    name: ${OPENCLAW_HOME_VOLUME:-openclaw-home}
 
 networks:
   home-server:
