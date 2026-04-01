@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        OPENCLAW_DOCKER_APT_PACKAGES: ffmpeg
+        OPENCLAW_DOCKER_APT_PACKAGES: ffmpeg nano
     image: docker-registry.home-intra.net/openclaw/gateway:latest
     ports: !reset []
     environment:
@@ -14,7 +14,6 @@ services:
     volumes:
       - openclaw-home:/home/node # used for persisting the entire home dir
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z # used for persisting config files, logs, and other important data
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z # used for persisting workspace data
     security_opt:
       - label=disable
 
@@ -22,8 +21,6 @@ services:
     volumes:
       - openclaw-home:/home/node # used for persisting the entire home dir
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z # used for persisting config files, logs, and other important data
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z # used for persisting workspace data
-
 volumes:
   openclaw-home:
     name: ${OPENCLAW_HOME_VOLUME:-openclaw-home}
