@@ -12,17 +12,17 @@ services:
     networks:
       - home-server
     volumes:
-      - openclaw-home:/home/node
-      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
+      - openclaw-home:/home/node # used for persisting the entire home dir
+      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z # used for persisting config files, logs, and other important data
+      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z # used for persisting workspace data
     security_opt:
       - label=disable
 
   openclaw-cli:
     volumes:
-      - openclaw-home:/home/node
-      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z
+      - openclaw-home:/home/node # used for persisting the entire home dir
+      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z # used for persisting config files, logs, and other important data
+      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace:z # used for persisting workspace data
 
 volumes:
   openclaw-home:
