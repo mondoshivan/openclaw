@@ -11,14 +11,14 @@ services:
       - OPENCLAW_GATEWAY_TOKEN:=${OPENCLAW_GATEWAY_TOKEN}
     networks:
       - home-server
-    volumes: !reset
+    volumes: !override
       - openclaw-home:/home/node # used for persisting the entire home dir
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z # used for persisting config files, logs, and other important data
     security_opt:
       - label=disable
 
   openclaw-cli:
-    volumes: !reset
+    volumes: !override
       - openclaw-home:/home/node # used for persisting the entire home dir
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z # used for persisting config files, logs, and other important data
 volumes:
