@@ -7,6 +7,8 @@ services:
         OPENCLAW_DOCKER_APT_PACKAGES: ffmpeg nano
     image: docker-registry.home-intra.net/openclaw/gateway:latest
     ports: !reset []
+    environment:
+      - PATH=/home/node/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     networks:
       - home-server
     volumes: !override
