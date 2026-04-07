@@ -34,7 +34,10 @@ fi
 
 # If there are local changes, commit and push them
 if [ -n "$(git status --porcelain)" ]; then
-  git add -A
+  git add \
+  "knowledge_base/" \
+  "README.md" \
+  "RULES.md"
   git commit -m "openclaw: auto-sync $TIMESTAMP"
   if ! git push 2>&1; then
     echo "[$TIMESTAMP] git-sync: push failed"
