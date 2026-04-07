@@ -3,7 +3,7 @@
 #
 # Intended to run as a cron job inside the OpenClaw gateway container.
 # Example crontab entry (every 5 minutes):
-#   */5 * * * * /home/node/scripts/git-sync.sh /home/node/obsidian >> /tmp/git-sync.log 2>&1
+#   */5 * * * * /home/node/scripts/git-sync.sh /home/node/.openclaw/agents/personal/obsidian >> /tmp/git-sync.log 2>&1
 #
 # Usage: git-sync.sh <repo-dir>
 
