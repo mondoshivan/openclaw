@@ -11,6 +11,7 @@ services:
       - 192.168.178.84
       - 192.168.178.1
     environment:
+      - JIRA_API_TOKEN=${JIRA_API_TOKEN:-}
       - PATH=/home/node/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     networks:
       - home-server
