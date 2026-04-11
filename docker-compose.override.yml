@@ -15,6 +15,7 @@ services:
       - TAVILY_API_KEY=${TAVILY_API_KEY}
       - TELEGRAM_FINTECH_TOKEN=${TELEGRAM_FINTECH_TOKEN}
       - TELEGRAM_PERSONAL_TOKEN=${TELEGRAM_PERSONAL_TOKEN}
+      - TELEGRAM_CODER_TOKEN=${TELEGRAM_CODER_TOKEN}
       - XAI_API_KEY=${XAI_API_KEY}
       - JIRA_API_TOKEN=${JIRA_API_TOKEN}
       - PATH=/home/node/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
