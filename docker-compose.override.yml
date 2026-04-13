@@ -17,7 +17,8 @@ services:
       - TELEGRAM_PERSONAL_TOKEN=${TELEGRAM_PERSONAL_TOKEN}
       - TELEGRAM_CODER_TOKEN=${TELEGRAM_CODER_TOKEN}
       - XAI_API_KEY=${XAI_API_KEY}
-      - JIRA_API_TOKEN=${JIRA_API_TOKEN}
+      - ATLASSIAN_TOKEN_CODER=${ATLASSIAN_TOKEN_CODER}
+      - ATLASSIAN_TOKEN_FINTECH=${ATLASSIAN_TOKEN_FINTECH}
       - PATH=/home/node/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     networks:
       - home-server
