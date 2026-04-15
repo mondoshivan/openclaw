@@ -27,7 +27,7 @@ services:
     volumes: !override
       - openclaw-home:/home/node # used for persisting the entire home dir
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw:z # used for persisting config files, logs, and other important data
-      - ${TRADE_ADVISOR_DIR}:/home/node/.openclaw/agents/coder/projects/trade-advisor:z # used for persisting config files, logs, and other important data
+      - ${TRADE_ADVISOR_DIR}:/home/node/.openclaw/agents/coder/projects/trade-advisor:z
     security_opt:
       - label=disable
 
