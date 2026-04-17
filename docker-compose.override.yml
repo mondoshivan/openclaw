@@ -21,6 +21,10 @@ services:
       - ATLASSIAN_TOKEN_CODER=${ATLASSIAN_TOKEN_CODER}
       - ATLASSIAN_TOKEN_FINTECH=${ATLASSIAN_TOKEN_FINTECH}
       - ATLASSIAN_TOKEN_TESTER=${ATLASSIAN_TOKEN_TESTER}
+      - SLACK_CODER_APP_TOKEN=${SLACK_CODER_APP_TOKEN}
+      - SLACK_CODER_BOT_TOKEN=${SLACK_CODER_BOT_TOKEN}
+      - SLACK_FINTECH_APP_TOKEN=${SLACK_FINTECH_APP_TOKEN}
+      - SLACK_FINTECH_BOT_TOKEN=${SLACK_FINTECH_BOT_TOKEN}
       - PATH=/home/node/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     networks:
       - home-server
