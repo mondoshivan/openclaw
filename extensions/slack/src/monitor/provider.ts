@@ -87,6 +87,7 @@ function resolveSlackBoltModule(value: unknown): SlackBoltResolvedExports | null
   ) {
     return null;
   }
+  const socketModeReceiver = Reflect.get(value, "SocketModeReceiver");
   return {
     App: app,
     HTTPReceiver: httpReceiver,
@@ -128,6 +129,10 @@ function resolveSlackBoltInterop(params: {
     isConstructorFunction<SlackHttpReceiverConstructor>(namespaceReceiver) &&
     isConstructorFunction<SlackSocketModeReceiverConstructor>(namespaceSocketModeReceiver)
   ) {
+    const namespaceSMReceiver =
+      namespaceImport && typeof namespaceImport === "object"
+        ? Reflect.get(namespaceImport, "SocketModeReceiver")
+        : undefined;
     return {
       App: defaultImport,
       HTTPReceiver: namespaceReceiver,
@@ -204,6 +209,9 @@ function createSlackBoltApp(params: {
     params.slackMode === "socket"
       ? new params.interop.SocketModeReceiver({
           appToken: params.appToken ?? "",
+          // Raised above the 5s default to avoid spurious reconnects under
+          // event-loop pressure (agent turns, parallel channel processing).
+          clientPingTimeout: 30_000,
           autoReconnectEnabled: false,
           installerOptions: {
             clientOptions: params.clientOptions,
