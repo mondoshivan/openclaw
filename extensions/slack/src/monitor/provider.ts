@@ -386,9 +386,21 @@ export async function monitorSlackProvider(opts: MonitorSlackOpts = {}) {
   let channelsConfig = slackCfg.channels;
   const defaultGroupPolicy = resolveDefaultGroupPolicy(cfg);
   const providerConfigPresent = cfg.channels?.slack !== undefined;
+  const hasChannelsAllowlist =
+    providerConfigPresent &&
+    Boolean(channelsConfig) &&
+    Object.keys(channelsConfig ?? {}).length > 0;
+  // The compiled config schema may not accept "open" as a groupPolicy value in some builds,
+  // silently converting it to "allowlist" via Zod default. When no channel allowlist is
+  // configured, treat "allowlist" as "open" — consistent with resolveOpenProviderRuntimeGroupPolicy's
+  // intent for a configured provider with no explicit per-channel restrictions.
+  const configGroupPolicy =
+    slackCfg.groupPolicy === "allowlist" && !hasChannelsAllowlist && providerConfigPresent
+      ? "open"
+      : slackCfg.groupPolicy;
   const { groupPolicy, providerMissingFallbackApplied } = resolveOpenProviderRuntimeGroupPolicy({
     providerConfigPresent,
-    groupPolicy: slackCfg.groupPolicy,
+    groupPolicy: configGroupPolicy,
     defaultGroupPolicy,
   });
   warnMissingProviderGroupPolicyFallbackOnce({
