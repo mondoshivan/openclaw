@@ -65,6 +65,23 @@ git add -- "${files[@]}"
 # exist. Only run the repo-wide validation gate inside a real checkout.
 if [[ -f "$ROOT_DIR/package.json" ]] && [[ -f "$ROOT_DIR/pnpm-lock.yaml" ]]; then
   cd "$ROOT_DIR"
+  # Ensure pnpm is resolvable — GUI git clients run with a stripped PATH.
+  # Find pnpm by scanning all nvm node versions and common standalone locations.
+  if ! command -v pnpm &>/dev/null; then
+    _found=""
+    # nvm-managed versions
+    for _dir in "$HOME/.nvm/versions/node"/*/bin; do
+      if [[ -x "$_dir/pnpm" ]]; then _found="$_dir"; break; fi
+    done
+    # standalone / homebrew fallbacks
+    if [[ -z "$_found" ]]; then
+      for _dir in "$HOME/Library/pnpm" "$HOME/.local/share/pnpm" "/opt/homebrew/bin" "/usr/local/bin"; do
+        if [[ -x "$_dir/pnpm" ]]; then _found="$_dir"; break; fi
+      done
+    fi
+    if [[ -n "$_found" ]]; then export PATH="$_found:$PATH"; fi
+    unset _found _dir
+  fi
   case "${FAST_COMMIT:-}" in
     1|true|TRUE|yes|YES|on|ON)
       echo "FAST_COMMIT enabled: skipping changed-scope check in pre-commit hook."
