@@ -87,7 +87,6 @@ function resolveSlackBoltModule(value: unknown): SlackBoltResolvedExports | null
   ) {
     return null;
   }
-  const socketModeReceiver = Reflect.get(value, "SocketModeReceiver");
   return {
     App: app,
     HTTPReceiver: httpReceiver,
