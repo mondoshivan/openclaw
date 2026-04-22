@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        OPENCLAW_DOCKER_APT_PACKAGES: ffmpeg nano jq python3-pip python3-venv cmake git-lfs ripgrep less
+        OPENCLAW_DOCKER_APT_PACKAGES: ffmpeg nano jq python3-pip python3-venv cmake git-lfs ripgrep less cron
     image: docker-registry.home-intra.net/openclaw/gateway:latest
     ports: !reset []
     dns:
